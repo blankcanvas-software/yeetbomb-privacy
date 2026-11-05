@@ -18,8 +18,8 @@
   .btn { display: block; width: 100%; box-sizing: border-box; padding: 18px; margin: 12px 0; border: 0; border-radius: 16px; font-size: 20px; font-weight: 800;
          color: #fff; background: #ff4d5e; box-shadow: 0 6px 0 #b8283a; text-decoration: none; cursor: pointer; }
   .btn.alt { background: #3ee089; box-shadow: 0 6px 0 #1f9a59; color: #0b0c14; }
-  .btn.ghost { background: #2a2f55; box-shadow: 0 6px 0 #171a33; font-size: 16px; }
   p { color: #b9bdd8; line-height: 1.5; }
+  .bonus { color: #ffd23f; font-weight: 700; }
   small a { color: #8a90b0; }
   .hidden { display: none; }
 </style>
@@ -31,8 +31,8 @@
   <p>Your friends build the traps. Beat this one or it blows up in your hands.</p>
   <div class="code" id="code">BOMB-??????</div>
   <button class="btn" id="open">OPEN IN YEET BOMB</button>
-  <a class="btn alt" id="store" href="https://play.google.com/store/apps/details?id=com.driveiq.yeetbomb">GET YEET BOMB</a>
-  <a class="btn ghost" id="join" href="https://play.google.com/apps/testing/com.driveiq.yeetbomb">CAN'T INSTALL? JOIN THE TEST FIRST</a>
+  <a class="btn alt" id="store" href="https://play.google.com/store/apps/details?id=com.driveiq.yeetbomb">PRE-REGISTER ON GOOGLE PLAY</a>
+  <p class="bonus">Don't have the game yet? Pre-register now and get the Yeet Pass free at launch.</p>
   <p id="note">Tapping copies the code. If you just installed the game, open it and the bomb will be waiting.</p>
   <p id="bad" class="hidden">This link has no valid bomb code. Ask your friend to send it again.</p>
   <small><a href="../privacy/">Privacy</a> · <a href="../terms/">Terms</a> · YEET BOMB is for ages 13+</small>
@@ -85,7 +85,7 @@
         location.href = "intent://bomb/" + raw + (from ? "?from=" + encodeURIComponent(from) : "") +
           "#Intent;scheme=yeetbomb;package=" + pkg + ";S.browser_fallback_url=" + encodeURIComponent(store) + ";end";
       } else {
-        document.getElementById("note").textContent = "Code copied. YEET BOMB is on Android: get it, then tap OPEN in the game.";
+        document.getElementById("note").textContent = "Code copied. YEET BOMB is coming to Android: pre-register on Google Play from your phone.";
       }
     });
   });
