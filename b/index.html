@@ -2,41 +2,43 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#0b0b0f">
 <title>A bomb was YEETED at you | YEET BOMB</title>
 <meta property="og:title" content="💣 A bomb was YEETED at you">
 <meta property="og:description" content="Your friends build the traps. Beat this one or it blows up in your hands.">
 <meta property="og:image" content="https://yeetbomb.softwareblankcanvas.es/card.png">
-<style>
-  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #12142a; color: #fff;
-         font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; text-align: center; }
-  main { max-width: 420px; padding: 32px 22px; }
-  h1 { font-size: 32px; margin: 8px 0; color: #ffd23f; letter-spacing: 1px; }
-  .bomb { font-size: 84px; line-height: 1; }
-  .code { font-size: 28px; font-weight: 800; letter-spacing: 3px; background: #1f2340; border: 3px dashed #ff4d5e; border-radius: 14px; padding: 12px; margin: 18px 0; }
-  .btn { display: block; width: 100%; box-sizing: border-box; padding: 18px; margin: 12px 0; border: 0; border-radius: 16px; font-size: 20px; font-weight: 800;
-         color: #fff; background: #ff4d5e; box-shadow: 0 6px 0 #b8283a; text-decoration: none; cursor: pointer; }
-  .btn.alt { background: #3ee089; box-shadow: 0 6px 0 #1f9a59; color: #0b0c14; }
-  .btn.ghost { background: #2a2f55; box-shadow: 0 6px 0 #171a33; font-size: 16px; }
-  p { color: #b9bdd8; line-height: 1.5; }
-  small a { color: #8a90b0; }
-  .hidden { display: none; }
-</style>
+<link rel="icon" href="../img/icon.png">
+<link rel="preload" href="/fonts/lilita-one.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="stylesheet" href="../site.css">
 </head>
-<body>
-<main>
-  <div class="bomb">💣</div>
-  <h1 id="title">A BOMB WAS YEETED AT YOU</h1>
-  <p>Your friends build the traps. Beat this one or it blows up in your hands.</p>
-  <div class="code" id="code">BOMB-??????</div>
-  <button class="btn" id="open">OPEN IN YEET BOMB</button>
-  <a class="btn alt" id="store" href="https://play.google.com/store/apps/details?id=com.driveiq.yeetbomb">GET YEET BOMB</a>
-  <a class="btn ghost" id="join" href="https://play.google.com/apps/testing/com.driveiq.yeetbomb">CAN'T INSTALL? JOIN THE TEST FIRST</a>
-  <p id="note">Tapping copies the code. If you just installed the game, open it and the bomb will be waiting.</p>
-  <p id="bad" class="hidden">This link has no valid bomb code. Ask your friend to send it again.</p>
-  <small><a href="../privacy/">Privacy</a> · <a href="../terms/">Terms</a> · YEET BOMB is for ages 13+</small>
+<body class="invite">
+<header class="bar">
+  <a class="brand" href="../"><img src="../img/icon.png" alt="">YEET BOMB</a>
+  <a class="by" href="https://www.softwareblankcanvas.es/">by BlankCanvas</a>
+</header>
+<main class="hero">
+  <div class="inner">
+    <img class="mascot" src="../img/bomb.png" alt="" width="382" height="420">
+    <p class="pill">Incoming bomb</p>
+    <h1 class="display" id="title">A bomb was yeeted at you</h1>
+    <p class="lede">Your friends build the traps. Beat this one or it blows up in your hands.</p>
+    <div class="code" id="code">BOMB-??????</div>
+    <div class="actions">
+      <button class="btn btn--yellow btn--block" id="open">Open in YEET BOMB</button>
+      <a class="btn btn--yellow btn--block hidden" id="web" href="../play/">Play in your browser</a>
+      <a class="btn btn--green btn--block" id="store" href="https://play.google.com/store/apps/details?id=com.driveiq.yeetbomb">Get YEET BOMB</a>
+      <a class="btn btn--ghost btn--block" id="join" href="https://play.google.com/apps/testing/com.driveiq.yeetbomb">Can't install? Join the test first</a>
+    </div>
+    <p class="note" id="note">Tapping copies the code. If you just installed the game, open it and the bomb will be waiting.</p>
+    <p class="note hidden" id="bad">This link has no valid bomb code. Ask your friend to send it again.</p>
+  </div>
 </main>
+<footer class="foot">
+  <nav class="links"><a href="../privacy/">Privacy</a><a href="../terms/">Terms</a><a href="../parents/">For parents</a></nav>
+  <p>YEET BOMB is for ages 13+ · A game by <a href="https://www.softwareblankcanvas.es/">BlankCanvas Software</a>, Tenerife</p>
+</footer>
 <script>
   var SUPABASE = "https://hhuzjlatcybgzmvbjaps.supabase.co";
   var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhodXpqbGF0Y3liZ3ptdmJqYXBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3MTMyNDUsImV4cCI6MjEwNzI4OTI0NX0.iV5COqltjgpRrw9MvNi_KXi9U9Oir5xAvUHxO-dURFw";
@@ -47,17 +49,31 @@
   var from = (q.get("from") || "").replace(/[^\w\-. ]/g, "").slice(0, 16);
   var pkg = "com.driveiq.yeetbomb";
   var store = "https://play.google.com/store/apps/details?id=" + pkg + (ok ? "&referrer=" + encodeURIComponent("bomb=" + raw) : "");
+  var android = /android/i.test(navigator.userAgent);
   document.getElementById("store").href = store;
-  if (from) document.getElementById("title").textContent = "@" + from.toUpperCase() + " YEETED A BOMB AT YOU";
+  if (from) document.getElementById("title").textContent = "@" + from.toUpperCase() + " yeeted a bomb at you";
+  function log(src) {
+    fetch(SUPABASE + "/rest/v1/rpc/log_invite_open", { method: "POST", keepalive: true,
+      headers: { "apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json" },
+      body: JSON.stringify({ code: raw, src: src }) }).catch(function () {});
+  }
+  // Android plays bombs in the app. iPhones, iPads and computers have no app, so there the browser version
+  // plays this bomb (and only bombs and traps from links: the full game is the Android app).
+  if (!android) {
+    var web = document.getElementById("web");
+    web.href = "../play/?c=" + raw + (from ? "&from=" + encodeURIComponent(from) : "");
+    web.classList.remove("hidden");
+    web.addEventListener("click", function () { log("web_b"); });
+    ["open", "store", "join"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
+    document.getElementById("note").textContent = "No download: it runs right here in your browser. Sound on!";
+  }
   if (!ok) {
-    ["code", "open", "note"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
+    ["code", "open", "web", "note"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
     document.getElementById("bad").classList.remove("hidden");
+    if (!android) document.getElementById("store").classList.remove("hidden");
   } else {
     document.getElementById("code").textContent = "BOMB-" + raw;
-    // Anonymous "invite opened" count (no personal data): measures how many links get opened.
-    fetch(SUPABASE + "/rest/v1/rpc/log_invite_open", { method: "POST",
-      headers: { "apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json" },
-      body: JSON.stringify({ code: raw, src: "landing_b" }) }).catch(function () {});
+    log("landing_b");   // anonymous "invite opened" count (no personal data)
   }
 
   function fallbackCopy(text) {
@@ -81,12 +97,8 @@
   // The link carries the bomb (and who sent it) into the app; the copied code is a backup for fresh installs.
   document.getElementById("open").addEventListener("click", function () {
     copyCode().then(function () {
-      if (/android/i.test(navigator.userAgent)) {
-        location.href = "intent://bomb/" + raw + (from ? "?from=" + encodeURIComponent(from) : "") +
-          "#Intent;scheme=yeetbomb;package=" + pkg + ";S.browser_fallback_url=" + encodeURIComponent(store) + ";end";
-      } else {
-        document.getElementById("note").textContent = "Code copied. YEET BOMB is on Android: get it, then tap OPEN in the game.";
-      }
+      location.href = "intent://bomb/" + raw + (from ? "?from=" + encodeURIComponent(from) : "") +
+        "#Intent;scheme=yeetbomb;package=" + pkg + ";S.browser_fallback_url=" + encodeURIComponent(store) + ";end";
     });
   });
   document.getElementById("store").addEventListener("click", function () { if (ok) copyCode(); });
