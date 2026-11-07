@@ -43,11 +43,20 @@
   var raw = (q.get("c") || "").toUpperCase().replace(/^BOMB-?/, "");
   var ok = /^[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$/.test(raw);
   var hop = parseInt(q.get("h") || "0", 10) || 0;
+  // Passed on to the game (which doesn't show it for a trap link).
   var from = (q.get("from") || "").replace(/[^\w\-. ]/g, "").slice(0, 16);
+  // Anyone can write any name into a link, and this page can't ask the server: it shows the name only when it
+  // looks like a plain nickname (letters, digits, spaces, _ and -; no dots, @ or links; no run of 4+ digits, like
+  // a phone number). Anything else keeps "This trap got my friend".
+  function plainName(s) {
+    s = (s || "").trim();
+    return /^[A-Za-z0-9 _-]{2,16}$/.test(s) && /[A-Za-z0-9]/.test(s) && !/[0-9]{4}/.test(s) ? s : "";
+  }
+  var shown = plainName(q.get("from"));
   var pkg = "com.driveiq.yeetbomb";
   var store = "https://play.google.com/store/apps/details?id=" + pkg;
   var android = /android/i.test(navigator.userAgent);
-  if (from) document.getElementById("title").textContent = "This trap got @" + from.toUpperCase();
+  if (shown) document.getElementById("title").textContent = "This trap got @" + shown.toUpperCase();
   // Android plays the trap in the app. iPhones, iPads and computers have no app, so there the browser version
   // plays it (only bombs and traps from links: the full game is the Android app).
   if (ok && !android) {

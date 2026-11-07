@@ -46,12 +46,21 @@
   // Codes use 2-9 and A-Z without I, L, O (same alphabet as the game).
   var raw = (q.get("c") || "").toUpperCase().replace(/^BOMB-?/, "");
   var ok = /^[23456789ABCDEFGHJKMNPQRSTUVWXYZ]{6}$/.test(raw);
+  // Passed on to the game, which shows it only once the server confirms it's the bomb's holder.
   var from = (q.get("from") || "").replace(/[^\w\-. ]/g, "").slice(0, 16);
+  // Anyone can write any name into a link, and this page can't ask the server: it shows the name only when it
+  // looks like a plain nickname (letters, digits, spaces, _ and -; no dots, @ or links; no run of 4+ digits, like
+  // a phone number). Anything else reads "A friend".
+  function plainName(s) {
+    s = (s || "").trim();
+    return /^[A-Za-z0-9 _-]{2,16}$/.test(s) && /[A-Za-z0-9]/.test(s) && !/[0-9]{4}/.test(s) ? s : "";
+  }
+  var shown = plainName(q.get("from"));
   var pkg = "com.driveiq.yeetbomb";
   var store = "https://play.google.com/store/apps/details?id=" + pkg + (ok ? "&referrer=" + encodeURIComponent("bomb=" + raw) : "");
   var android = /android/i.test(navigator.userAgent);
   document.getElementById("store").href = store;
-  if (from) document.getElementById("title").textContent = "@" + from.toUpperCase() + " yeeted a bomb at you";
+  if (q.get("from")) document.getElementById("title").textContent = (shown ? "@" + shown.toUpperCase() : "A friend") + " yeeted a bomb at you";
   function log(src) {
     fetch(SUPABASE + "/rest/v1/rpc/log_invite_open", { method: "POST", keepalive: true,
       headers: { "apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json" },
