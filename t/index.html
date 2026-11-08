@@ -57,9 +57,12 @@
   var store = "https://play.google.com/store/apps/details?id=" + pkg;
   var android = /android/i.test(navigator.userAgent);
   if (shown) document.getElementById("title").textContent = "This trap got @" + shown.toUpperCase();
-  // Android plays the trap in the app. iPhones, iPads and computers have no app, so there the browser version
-  // plays it (only bombs and traps from links: the full game is the Android app).
-  if (ok && !android) {
+  // iPhones, iPads and computers have no app, so the browser version plays the trap there (only bombs and traps
+  // from links: the full game is the Android app). Android opens it in the app. Until YEET BOMB is public on Google
+  // Play (PRELAUNCH: its store page only offers pre-registration) Android can play in the browser too, listed first.
+  // Set PRELAUNCH to false at launch (and WEB_ANDROID_PLAYS in main.gd).
+  var PRELAUNCH = true;
+  if (ok && (!android || PRELAUNCH)) {
     var web = document.getElementById("web");
     web.href = "../play/?c=" + raw + "&h=" + hop + (from ? "&from=" + encodeURIComponent(from) : "");
     web.classList.remove("hidden");
@@ -69,7 +72,17 @@
         headers: { "apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json" },
         body: JSON.stringify({ code: raw, src: "web_t" }) }).catch(function () {});
     });
-    ["open", "store", "join"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
+    if (!android) {
+      ["open", "store", "join"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
+    } else {
+      var openBtn = document.getElementById("open"), storeBtn = document.getElementById("store");
+      openBtn.parentNode.insertBefore(web, openBtn);
+      openBtn.classList.replace("btn--yellow", "btn--green");
+      openBtn.textContent = "Try it in the app";
+      storeBtn.classList.replace("btn--green", "btn--ghost");
+      storeBtn.textContent = "Pre-register on Google Play";
+      document.getElementById("note").textContent = "No download needed: play it right here in your browser. Already have YEET BOMB? Try it in the app.";
+    }
   }
   document.getElementById("open").addEventListener("click", function () {
     if (ok && android) {

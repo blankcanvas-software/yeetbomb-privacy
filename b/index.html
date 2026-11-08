@@ -66,15 +66,26 @@
       headers: { "apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json" },
       body: JSON.stringify({ code: raw, src: src }) }).catch(function () {});
   }
-  // Android plays bombs in the app. iPhones, iPads and computers have no app, so there the browser version
-  // plays this bomb (and only bombs and traps from links: the full game is the Android app).
+  // iPhones, iPads and computers have no app, so the browser version plays this bomb there (only bombs and traps
+  // from links: the full game is the Android app). Android opens it in the app. Until YEET BOMB is public on Google
+  // Play (PRELAUNCH: its store page only offers pre-registration) Android can play in the browser too, listed first:
+  // most friends don't have the app yet. Set PRELAUNCH to false at launch (and WEB_ANDROID_PLAYS in main.gd).
+  var PRELAUNCH = true;
+  var web = document.getElementById("web");
+  web.href = "../play/?c=" + raw + (from ? "&from=" + encodeURIComponent(from) : "");
+  web.addEventListener("click", function () { log("web_b"); });
   if (!android) {
-    var web = document.getElementById("web");
-    web.href = "../play/?c=" + raw + (from ? "&from=" + encodeURIComponent(from) : "");
     web.classList.remove("hidden");
-    web.addEventListener("click", function () { log("web_b"); });
     ["open", "store", "join"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
     document.getElementById("note").textContent = "No download: it runs right here in your browser. Sound on!";
+  } else if (PRELAUNCH) {
+    var openBtn = document.getElementById("open"), storeBtn = document.getElementById("store");
+    web.classList.remove("hidden");
+    openBtn.parentNode.insertBefore(web, openBtn);
+    openBtn.classList.replace("btn--yellow", "btn--green");
+    storeBtn.classList.replace("btn--green", "btn--ghost");
+    storeBtn.textContent = "Pre-register on Google Play";
+    document.getElementById("note").textContent = "No download needed: play it right here in your browser. Already have YEET BOMB? Open it in the app.";
   }
   if (!ok) {
     ["code", "open", "web", "note"].forEach(function (id) { document.getElementById(id).classList.add("hidden"); });
